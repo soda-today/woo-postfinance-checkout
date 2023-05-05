@@ -109,6 +109,11 @@ class WC_PostFinanceCheckout_Service_Line_Item extends WC_PostFinanceCheckout_Se
 				$discount = $amount_including_tax - $discount_including_tax - $coupon_discount;
 			}
 
+      // check discount rounding errors
+      if(abs($discount) < 0.01) {
+        $discount = 0;
+      }
+
 			$line_item = new \PostFinanceCheckout\Sdk\Model\LineItemCreate();
 			$line_item->setAmountIncludingTax( $this->round_amount( $amount, $currency ) );
 			$line_item->setDiscountIncludingTax( $this->round_amount( $discount, $currency ) );
@@ -377,6 +382,11 @@ class WC_PostFinanceCheckout_Service_Line_Item extends WC_PostFinanceCheckout_Se
 				$amount = $amount_including_tax;
 				$discount = $amount_including_tax - $discount_including_tax - $coupon_discount;
 			}
+
+      // check discount rounding errors
+      if(abs($discount) < 0.01) {
+        $discount = 0;
+      }
 
 			$line_item->setAmountIncludingTax( $this->round_amount( $amount, $currency ) );
 			$line_item->setDiscountIncludingTax( $this->round_amount( $discount, $currency ) );
